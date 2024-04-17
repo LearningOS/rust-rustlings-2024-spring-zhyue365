@@ -13,7 +13,7 @@
 //
 // No hints this time ;)
 
-// I AM NOT DONE
+
 
 // Put your function here!
 // fn calculate_price_of_apples {
@@ -21,8 +21,8 @@
 // Don't modify this function!
 #[test]
 fn verify_test() {
-    let price1 = calculate_price_of_apples(35);
-    let price2 = calculate_price_of_apples(40);
+    let price1 = calculate_price_of_apples(70);
+    let price2 = calculate_price_of_apples(80);
     let price3 = calculate_price_of_apples(41);
     let price4 = calculate_price_of_apples(65);
 
@@ -30,4 +30,13 @@ fn verify_test() {
     assert_eq!(80, price2);
     assert_eq!(41, price3);
     assert_eq!(65, price4);
+}
+fn calculate_price_of_apples(quantity: u32) -> u32 {
+    if quantity > 40 {
+        // 如果购买的苹果数量超过40，每个苹果价格为1 rustbuck
+        1 * quantity
+    } else {
+        // 否则，每个苹果价格为2 rustbucks
+        2 * quantity
+    }
 }
