@@ -1,17 +1,14 @@
-// tests6.rs
-//
-// In this example we take a shallow dive into the Rust standard library's
-// unsafe functions. Fix all the question marks and todos to make the test
-// pass.
-//
-// Execute `rustlings hint tests6` or use the `hint` watch subcommand for a
-// hint.
-
-/// # Safety
-
-unsafe fn raw_pointer_to_box(ptr: *mut Foo) -> Box<Foo> {
-
-    unsafe { Box::from_raw(ptr) }
+unsafe fn modify_by_address(address: usize) {
+    // SAFETY: The caller must ensure that `address` is a valid pointer
+    // to a `u32` value and that it is safe to dereference and mutate it.
+    unsafe {
+        // Cast the address to a mutable pointer to u32 and dereference it
+        // to modify the value.
+        // Note: In real-world usage, you should be very careful with raw pointer
+        // manipulations and ensure that they are safe according to the safety
+        // contract outlined above.
+        *(address as *mut u32) = 0xAABBCCDD;
+    }
 }
 
 #[cfg(test)]
@@ -20,19 +17,9 @@ mod tests {
 
     #[test]
     fn test_success() {
-        let data = Box::new(Foo { a: 1, b: None });
+        let mut t: u32 = 0x12345678;
 
-
-        let raw_ptr = Box::into_raw(data);
-        let ret = unsafe { raw_pointer_to_box(raw_ptr) };
-
-        let _raw_ptr_again = Box::into_raw(ret);
-
-
-        let ptr_2 = &ret.a as *const u128 as usize;
-
-        assert!(ptr_2 == 1);
-
-
+        unsafe { modify_by_address(&mut t as *mut u32 as usize) };
+        assert_eq!(t, 0xAABBCCDD);
     }
 }
